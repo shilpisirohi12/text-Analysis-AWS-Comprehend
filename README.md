@@ -14,6 +14,7 @@ Below is the image of the code
 ### DEPLOY NODE.JS PROJECT ON AWS EC2
 
 - Create EC2 Ubuntu instance.
+- Login into the instance via SSH.
 - Install node and git
 - clone this repository
 - Run ```npm install``` to download the dependencies
@@ -28,4 +29,9 @@ Below is the image of the code
 - Go to EC2 instance and copy IPv4 Public IP.
 - Go to the browser and type {IPv4 Public IP}:3300 
 
-
+### START SERVER TO RUN FOREVER
+- Install pm2 by running ```npm install -g pm2```
+- Set up pm2 to start the server automatically on server restart by running
+    ```pm2 start server.js```
+    ```pm2 save```
+    ```pm2 startup```
