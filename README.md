@@ -23,7 +23,7 @@ Below is the image of the code
 
 ### SETTING INBOUND RULES
 - Add new inbound to your EC2 instance to open the node server port to be accessible from anywhere. 
-     **NOTE I put PORT 3300 as my node server is listening on this port. **
+     **NOTE I put PORT 3300 as my node server is listening on this port.**
 ![Custom TCP](https://github.com/shilpisirohi12/text-Analysis-AWS-Comprehend/blob/master/images/customTCP.JPG)
 
 ### ACCESSING THE APPLICATION
