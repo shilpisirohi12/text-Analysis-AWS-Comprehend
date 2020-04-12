@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- <meta charset="UTF-8" /> -->
+    <title>Text Analysis</title>
+    <style>
+      .container {
+        width: 75%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .suggest {
+        border-radius: 25px;
+        border: 2px solid #73ad21;
+        padding: 20px;
+        width: 50%;
+        margin: 2px;
+      }
+
+      .noresponse {
+        border-radius: 10px;
+        border: 3px solid #ad2121;
+        padding: 5px;
+        width: 60%;
+        margin: 2px;
+        text-align: center;
+      }
+
+      .buttons {
+        align-content: center;
+        display: flex;
+        margin-left: 18%;
+        margin-bottom: 5%;
+      }
+
+      #result {
+        margin: 5%;
+      }
+
+      .inputbutton {
+        border-block: yellow;
+        background-color: blue;
+        border-radius: 15px;
+        color: white;
+        align-content: center;
+        margin-right: 10px;
+        display: inline;
+      }
+
+      div input {
+        padding: 10px;
+      }
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 50%;
+      }
+
+      td,
+      th {
+        border: 2px solid #73ad21;
+        text-align: left;
+        padding: 8px;
+      }
+
+      tr:nth-child(even) {
+        background-color: #dddddd;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Sentiment Analysis of the Text Using AWS Comprehend Service</h1>
+      <br />
+      <div id="content">
+        Enter your Text (<i>maximum character allowed:300</i>):<br />
+        <textarea
+          id="userText"
+          class="test"
+          rows="6"
+          cols="80"
+          maxlength="300"
+          placeholder="Enter your text message here..."
+        ></textarea
+        ><br /><br />
+        <div class="buttons">
+          <input
+            class="inputbutton"
+            type="button"
+            value="Get Sentiment"
+            onclick="getSentiments()"
+          />
+          <input
+            class="inputbutton"
+            type="button"
+            value="Get List Of Entities"
+            onclick="getEntities()"
+          />
+        </div>
+      </div>
+      <div id="result">
+        <div id="sentiment"></div>
+        <div id="entities"></div>
+      </div>
+      <div id="tweets">
+        <div>
+          <h2 class="heading">Text Suggestion To Test API</h2>
+          <div class="suggest">
+            Cloud computing course delivered at University Of South Florida is
+            awesome.
+          </div>
+          <div class="suggest">
+            Great businessman & philanthropist Bernie Marcus, Co-Founder of Home
+            Depot, said that Congress was too distracted by the (phony)
+            Impeachment Witch Hunt when they should have been investigating
+            CoronaVirus when it first appeared in China. Media played a big roll
+            also!@dcexaminer
+          </div>
+          <div class="suggest">
+            South Florida News, Weather, Entertainment, Sports from WPLG Local
+            10 Follow us on Instagram: http://instagram.com/local10news
+          </div>
+          <div class="suggest">
+            Happy Birthday
+          </div>
+          <div class="suggest">
+            We are living in the world which is full of possibilities
+          </div>
+          <div class="suggest">
+            Say hello to 49 new AWS Competency, Service Delivery & MSP Partners
+            that span workload, solution area & industry: https://go.aws/2JUiL5c
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      async function getSentiments() {
+        let userInput = document.getElementById("userText").value;
+        userInput = userInput.replace(/[^\w\s]/gi, " ");
+        console.log(userInput);
+        let url = `sentiment/${userInput}`;
+        const response = await fetch(url, { mode: "no-cors" });
+        const data = await response.json();
+        const divData = parseList(JSON.parse(data), "Sentiment", "Value");
+        document.getElementById("sentiment").innerHTML = divData;
+        document.getElementById("entities").innerHTML = "";
+      }
+      async function getEntities() {
+        let userInput = document.getElementById("userText").value;
+        userInput = userInput.replace(/[^\w\s]/gi, " ");
+        console.log(userInput);
+        let url = `entities/${userInput}`;
+        const response = await fetch(url, { mode: "no-cors" });
+        const data = await response.json();
+        const divData = parseList(JSON.parse(data), "Keyword", "Type");
+
+        document.getElementById("entities").innerHTML = divData;
+        document.getElementById("sentiment").innerHTML = "";
+      }
+
+      function parseList(lst, heading1, heading2) {
+        console.log(lst);
+        console.log(lst.length);
+
+        if (lst.length === 0) {
+          divData =
+            "<div class='noresponse'><h3>API response is empty!!</h3><h4>Please enter some different text</h3></div>";
+        } else {
+          divData =
+            "<table><tr><th>" +
+            heading1 +
+            "</th><th>" +
+            heading2 +
+            "</th></tr>";
+          for (i = 0; i < lst.length; i++) {
+            obj = lst[i];
+            key = Object.keys(obj);
+            value = obj[key];
+            divData =
+              divData + "<tr><td>" + key + "</td><td>" + value + "</td>";
+            console.log("key: " + key + "  value:" + value);
+          }
+        }
+        divData = divData + "</table>";
+        console.log(divData);
+        return divData;
+      }
+    </script>
+  </body>
+</html>
