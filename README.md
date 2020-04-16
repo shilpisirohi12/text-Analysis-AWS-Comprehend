@@ -1,5 +1,5 @@
 # Sentiment Analysis of the Text Using AWS Comprehend Service
-This is an application which will analyse the text by calling AWS Lamba Endpoint URL which has the implementation of  AWS Comprehend service. 
+This is an application which will analzse the text by calling AWS Lambda Endpoint URL which has the implementation of  AWS Comprehend service. 
 This application is accessible at http://18.188.225.28:3300/
 
 ## STEPS TO RE-CREATE THIS PROJECT
